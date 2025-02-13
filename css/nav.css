@@ -122,3 +122,24 @@ body {
 .navbar-menu a:hover::after {
     transform: scaleX(1);
 }
+@media (max-width: 768px) {
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: black;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+        padding: 20px;
+    }
+    
+    body::before {
+        content: "This site is designed for desktops. Please visit on a PC.";
+    }
+
+    * {
+        display: none;
+    }
+}
