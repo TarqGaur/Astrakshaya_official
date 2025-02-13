@@ -1,0 +1,114 @@
+/* General Styles */
+body {
+    font-family: 'Rajdhani', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: black;
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(circle, #0d0d12, #1b1b1f);
+    color: white;
+    padding: 0 20px;
+}
+
+.hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: rgba(200, 200, 200, 0.8);
+    margin-top: 10px;
+}
+
+.cta-buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cta-button {
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border: 2px solid #ffffff;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Orbitron', sans-serif;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #84b0e6;
+    transform: scale(1.1);
+}
+
+.cta-button.secondary {
+    border-color: #84b0e6;
+}
+
+/* Footer */
+.footer {
+    background: rgba(0, 0, 0, 0.9);
+    text-align: center;
+    padding: 20px;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    color: #b3b3b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        height: auto;
+        padding: 50px 20px;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    .cta-button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    .hero-subtitle {
+        font-size: 0.8rem;
+    }
+    .cta-button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
