@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrakshaya's Universe</title>
+    <link rel="icon" href="teamImages/logo.jpg" type="image/x-icon">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Styling for the clickable image at the bottom center */
+        .exploreC1 {
+            position: absolute;
+            bottom: 0px; /* Position it near the bottom of the viewport */
+            left: 50%;
+            transform: translateX(-50%); /* Center it horizontally */
+            z-index: 10; /* Ensure it appears above the canvas */
+            text-align: center;
+        }
+
+        .exploreC1 img {
+            width: 300px;
+            border: 0px solid white;
+            border-radius: 10px;
+            cursor: pointer; /* Indicate the image is clickable */
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .back{
+            position: absolute;
+            bottom: 850px; /* Position it near the bottom of the viewport */
+            left: 2.5%;
+            transform: translateX(-50%); /* Center it horizontally */
+            z-index: 10; /* Ensure it appears above the canvas */
+            text-align: center;
+        }
+        .back img {
+            width: 50px;
+            border: 0px solid white;
+            border-radius: 10px;
+            cursor: pointer; /* Indicate the image is clickable */
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .exploreC1 img:hover {
+            transform: scale(1.1); /* Slight zoom effect on hover */
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Div for clickable image -->
+    <div class="exploreC1">
+        <a href="2ndindex.html.html">
+            <img src="galaxy/bg_remover.png" alt="Clickable Image">
+        </a>
+    </div>
+
+    <div class="back">
+        <a href="index.html">
+            <img src="arrow (1).png" alt="Clickable Image">
+        </a>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.154.0/build/three.module.js';
+
+        // Scene, Camera, and Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Galaxy Parameters
+        const galaxyParams = {
+            starCount: 10000,
+            radius: 10,
+            branches: 4,
+            spin: 1,
+            randomness: 0.5,
+            randomnessPower: 3,
+            colorInside: new THREE.Color(0xffddaa),
+            colorOutside: new THREE.Color(0xaaaaee),
+        };
+
+        // Geometry and Material
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(galaxyParams.starCount * 3);
+        const colors = new Float32Array(galaxyParams.starCount * 3);
+
+        for (let i = 0; i < galaxyParams.starCount; i++) {
+            const i3 = i * 3;
+
+            // Position
+            const radius = Math.random() * galaxyParams.radius;
+            const spinAngle = radius * galaxyParams.spin;
+            const branchAngle = (i % galaxyParams.branches) / galaxyParams.branches * Math.PI * 2;
+
+            const randomX = Math.pow(Math.random(), galaxyParams.randomnessPower) * (Math.random() < 0.5 ? 1 : -1);
+            const randomY = Math.pow(Math.random(), galaxyParams.randomnessPower) * (Math.random() < 0.5 ? 1 : -1);
+            const randomZ = Math.pow(Math.random(), galaxyParams.randomnessPower) * (Math.random() < 0.5 ? 1 : -1);
+
+            positions[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+            positions[i3 + 1] = randomY;
+            positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+            // Color
+            const mixedColor = galaxyParams.colorInside.clone();
+            mixedColor.lerp(galaxyParams.colorOutside, radius / galaxyParams.radius);
+
+            colors[i3] = mixedColor.r;
+            colors[i3 + 1] = mixedColor.g;
+            colors[i3 + 2] = mixedColor.b;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.05,
+            vertexColors: true,
+        });
+
+        const galaxy = new THREE.Points(geometry, material);
+        scene.add(galaxy);
+
+        // Adjust Camera for Full View
+        camera.position.set(0, 20, 20); // Slightly angled top-down view
+        camera.lookAt(0, 0, 0); // Ensure the camera looks at the center of the galaxy
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            galaxy.rotation.y += 0.001; // Rotate galaxy
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle Resize
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+</body>
+</html>
